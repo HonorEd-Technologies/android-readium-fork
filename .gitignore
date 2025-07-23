@@ -90,3 +90,14 @@ lcp.patch
 
 # direnv file containing Maven Central secrets
 .envrc
+.idea/studiobot.xml
+.idea/runConfigurations.xml
+.idea/migrations.xml
+.idea/kotlinc.xml
+.idea/deploymentTargetSelector.xml
+.idea/compiler.xml
+.idea/AndroidProjectSystem.xml
+.idea/kotlinc.xml
+.idea/compiler.xml
+.idea/kotlinc.xml
+.idea/compiler.xml

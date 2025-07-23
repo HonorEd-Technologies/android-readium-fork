@@ -419,36 +419,39 @@ open class R2BasicWebView(context: Context, attrs: AttributeSet) : WebView(conte
 
     @android.webkit.JavascriptInterface
     fun onDragStart(eventJson: String): Boolean {
-        val event = DragEvent.fromJSON(eventJson)?.takeIf { it.isValid }
-            ?: return false
-
-        return runBlocking(uiScope.coroutineContext) { listener?.onDragStart(event) ?: false }
+        return false
+//        val event = DragEvent.fromJSON(eventJson)?.takeIf { it.isValid }
+//            ?: return false
+//
+//        return runBlocking(uiScope.coroutineContext) { listener?.onDragStart(event) ?: false }
     }
 
     @android.webkit.JavascriptInterface
     fun onDragMove(eventJson: String): Boolean {
-        val event = DragEvent.fromJSON(eventJson)?.takeIf { it.isValid }
-            ?: return false
-
-        return runBlocking(uiScope.coroutineContext) { listener?.onDragMove(event) ?: false }
+        return false
+//        val event = DragEvent.fromJSON(eventJson)?.takeIf { it.isValid }
+//            ?: return false
+//
+//        return runBlocking(uiScope.coroutineContext) { listener?.onDragMove(event) ?: false }
     }
 
     @android.webkit.JavascriptInterface
     fun onDragEnd(eventJson: String): Boolean {
-        val event = DragEvent.fromJSON(eventJson)?.takeIf { it.isValid }
-            ?: return false
-
-        return runBlocking(uiScope.coroutineContext) { listener?.onDragEnd(event) ?: false }
+        return false
+//        val event = DragEvent.fromJSON(eventJson)?.takeIf { it.isValid }
+//            ?: return false
+//
+//        return runBlocking(uiScope.coroutineContext) { listener?.onDragEnd(event) ?: false }
     }
 
     @android.webkit.JavascriptInterface
     fun onSelectionStart() {
-        isSelecting = true
+      //  isSelecting = true
     }
 
     @android.webkit.JavascriptInterface
     fun onSelectionEnd() {
-        isSelecting = false
+       // isSelecting = false
     }
 
     /** Produced by gestures.js */
@@ -652,12 +655,13 @@ open class R2BasicWebView(context: Context, attrs: AttributeSet) : WebView(conte
 
     @RequiresApi(Build.VERSION_CODES.M)
     override fun startActionMode(callback: ActionMode.Callback?, type: Int): ActionMode? {
-        val customCallback = listener?.selectionActionModeCallback
-            ?: return super.startActionMode(callback, type)
-
-        val parent = parent ?: return null
-        val wrapper = Callback2Wrapper(customCallback, callback2 = callback as? ActionMode.Callback2)
-        return parent.startActionModeForChild(this, wrapper, type)
+        return super.startActionMode(callback, type)
+//        val customCallback = listener?.selectionActionModeCallback
+//            ?: return super.startActionMode(callback, type)
+//
+//        val parent = parent ?: return null
+//        val wrapper = Callback2Wrapper(customCallback, callback2 = callback as? ActionMode.Callback2)
+//        return parent.startActionModeForChild(this, wrapper, type)
     }
 
     @RequiresApi(Build.VERSION_CODES.M)
