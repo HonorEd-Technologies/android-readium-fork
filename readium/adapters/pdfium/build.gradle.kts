@@ -16,3 +16,11 @@ dependencies {
     api(project(":readium:adapters:pdfium:readium-adapter-pdfium-document"))
     api(project(":readium:adapters:pdfium:readium-adapter-pdfium-navigator"))
 }
+
+tasks.named("ktlintMainSourceSetCheck").configure {
+    onlyIf { System.getenv("JITPACK") == null }
+}
+
+tasks.named("ktlintKotlinScriptCheck").configure {
+    onlyIf { System.getenv("JITPACK") == null }
+}

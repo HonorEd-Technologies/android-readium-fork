@@ -16,3 +16,11 @@ dependencies {
     api(project(":readium:adapters:pspdfkit:readium-adapter-pspdfkit-document"))
     api(project(":readium:adapters:pspdfkit:readium-adapter-pspdfkit-navigator"))
 }
+
+tasks.named("ktlintMainSourceSetCheck").configure {
+    onlyIf { System.getenv("JITPACK") == null }
+}
+
+tasks.named("ktlintKotlinScriptCheck").configure {
+    onlyIf { System.getenv("JITPACK") == null }
+}

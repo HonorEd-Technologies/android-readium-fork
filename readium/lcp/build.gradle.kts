@@ -41,3 +41,11 @@ dependencies {
     androidTestImplementation(libs.androidx.ext.junit)
     androidTestImplementation(libs.androidx.expresso.core)
 }
+
+tasks.named("ktlintMainSourceSetCheck").configure {
+    onlyIf { System.getenv("JITPACK") == null }
+}
+
+tasks.named("ktlintKotlinScriptCheck").configure {
+    onlyIf { System.getenv("JITPACK") == null }
+}

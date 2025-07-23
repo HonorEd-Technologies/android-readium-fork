@@ -44,3 +44,11 @@ dependencies {
 
     androidTestImplementation(libs.kotlin.junit)
 }
+
+tasks.named("ktlintMainSourceSetCheck").configure {
+    onlyIf { System.getenv("JITPACK") == null }
+}
+
+tasks.named("ktlintKotlinScriptCheck").configure {
+    onlyIf { System.getenv("JITPACK") == null }
+}
