@@ -42,3 +42,7 @@ tasks.named("ktlintMainSourceSetCheck").configure {
 tasks.named("ktlintKotlinScriptCheck").configure {
     onlyIf { System.getenv("JITPACK") == null }
 }
+
+tasks.named("ktlintTestSourceSetCheck").configure {
+    onlyIf { System.getenv("JITPACK") == null }
+}
