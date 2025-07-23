@@ -120,3 +120,7 @@ dependencies {
 tasks.named("ktlintMainSourceSetCheck").configure {
     onlyIf { System.getenv("JITPACK") == null }
 }
+
+tasks.named("ktlintKotlinScriptCheck").configure {
+    onlyIf { System.getenv("JITPACK") == null }
+}
