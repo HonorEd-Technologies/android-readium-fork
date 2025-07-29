@@ -52,9 +52,9 @@ android {
 
 mavenPublishing {
     coordinates(
-        groupId = group.toString(),
+        groupId = "com.HonorEd-Technologies.readium",
         artifactId = property("pom.artifactId") as String,
-        version = property("pom.version") as String
+        version = "2.4.3-honor"
     )
 
     pom {
@@ -98,5 +98,10 @@ mavenPublishing {
     }
 
     publishToMavenCentral(SonatypeHost.S01)
-    signAllPublications()
+    // Conditionally disable signing for local Maven deployments
+    if (project.hasProperty("mavenLocal")) {
+        // Skip signing for local deployments
+    } else {
+        signAllPublications()
+    }
 }

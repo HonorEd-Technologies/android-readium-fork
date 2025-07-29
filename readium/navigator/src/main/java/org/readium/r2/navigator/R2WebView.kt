@@ -683,120 +683,120 @@ class R2WebView(context: Context, attrs: AttributeSet) : R2BasicWebView(context,
         }
     }
 
-    override fun onTouchEvent(ev: MotionEvent): Boolean {
-
-        if (mVelocityTracker == null) {
-            mVelocityTracker = VelocityTracker.obtain()
-        }
-        mVelocityTracker?.addMovement(ev)
-
-        val action = ev.action
-        when (action and MotionEvent.ACTION_MASK) {
-
-            MotionEvent.ACTION_DOWN -> {
-                mScroller?.let { scroller ->
-                    mHasAbortedScroller = !scroller.isFinished
-                    scroller.abortAnimation()
-                }
-
-                // Remember where the motion event started
-                mInitialMotionX = ev.x
-                mLastMotionX = mInitialMotionX
-                mInitialMotionY = ev.y
-                mActivePointerId = ev.getPointerId(0)
-            }
-            MotionEvent.ACTION_MOVE -> {
-                if ((mLastMotionX > (width - mGutterSize)) || (mLastMotionX < mGutterSize)) {
-                    requestDisallowInterceptTouchEvent(true)
-                    return false
-                }
-
-                if (!isSelecting && !mIsBeingDragged) {
-                    mInitialVelocity = getCurrentXVelocity()
-                    val pointerIndex = ev.findPointerIndex(mActivePointerId)
-                    val x = ev.getX(pointerIndex)
-                    val xDiff = abs(x - mLastMotionX)
-
-                    if (xDiff > mTouchSlop) {
-                        if (DEBUG) Timber.v("Starting drag!")
-                        mIsBeingDragged = true
-                        mLastMotionX = if (x - mInitialMotionX > 0)
-                            mInitialMotionX + mTouchSlop
-                        else
-                            mInitialMotionX - mTouchSlop
-                        setScrollState(SCROLL_STATE_DRAGGING)
-                        setScrollingCacheEnabled(true)
-                    }
-                }
-            }
-            MotionEvent.ACTION_UP -> when {
-                mIsBeingDragged -> {
-                    mIsBeingDragged = false
-                    mHasAbortedScroller = false
-
-                    val activePointerIndex = ev.findPointerIndex(mActivePointerId)
-                    val x = ev.getX(activePointerIndex)
-                    val y = ev.getY(activePointerIndex)
-
-                    if (scrollMode) {
-                        val totalDelta = (y - mInitialMotionY).toInt()
-                        if (abs(totalDelta) < 200) {
-                            if (mInitialMotionX < x) {
-                                scrollLeft(animated = true)
-                            } else if (mInitialMotionX > x) {
-                                scrollRight(animated = true)
-                            }
-                        }
-                    } else {
-                        val velocity = getCurrentXVelocity() ?: 0
-                        val totalDelta = (x - mInitialMotionX).toInt()
-                        val targetPage = determineTargetPage(
-                            currentPage = mCurItem,
-                            initialVelocity = mInitialVelocity ?: 0,
-                            currentVelocity = velocity,
-                            deltaX = totalDelta
-                        )
-
-                        when {
-                            targetPage < 0 -> {
-                                scrollLeft(animated = true)
-                            }
-                            targetPage >= numPages -> {
-                                scrollRight(animated = true)
-                            }
-                            else -> {
-                                setCurrentItemInternal(targetPage, true, velocity)
-                            }
-                        }
-                    }
-                }
-                // The gesture was made while a smooth scrolling was animating. If no dragging
-                // occurred, we continue the smooth scrolling where we left off.
-                mHasAbortedScroller -> {
-                    mHasAbortedScroller = false
-                    val velocity = getCurrentXVelocity() ?: 0
-                    setCurrentItemInternal(mCurItem, true, velocity)
-                }
-            }
-
-            MotionEvent.ACTION_CANCEL -> if (mIsBeingDragged) {
-                mIsBeingDragged = false
-                scrollToItem(mCurItem, true, 0, false)
-            }
-            MotionEvent.ACTION_POINTER_DOWN -> {
-                val index = ev.actionIndex
-                val x = ev.getX(index)
-                mLastMotionX = x
-                mActivePointerId = ev.getPointerId(index)
-            }
-            MotionEvent.ACTION_POINTER_UP -> {
-                onSecondaryPointerUp(ev)
-                mLastMotionX = ev.getX(ev.findPointerIndex(mActivePointerId))
-            }
-        }
-
-        return super.onTouchEvent(ev)
-    }
+//    override fun onTouchEvent(ev: MotionEvent): Boolean {
+//
+//        if (mVelocityTracker == null) {
+//            mVelocityTracker = VelocityTracker.obtain()
+//        }
+//        mVelocityTracker?.addMovement(ev)
+//
+//        val action = ev.action
+//        when (action and MotionEvent.ACTION_MASK) {
+//
+//            MotionEvent.ACTION_DOWN -> {
+//                mScroller?.let { scroller ->
+//                    mHasAbortedScroller = !scroller.isFinished
+//                    scroller.abortAnimation()
+//                }
+//
+//                // Remember where the motion event started
+//                mInitialMotionX = ev.x
+//                mLastMotionX = mInitialMotionX
+//                mInitialMotionY = ev.y
+//                mActivePointerId = ev.getPointerId(0)
+//            }
+//            MotionEvent.ACTION_MOVE -> {
+//                if ((mLastMotionX > (width - mGutterSize)) || (mLastMotionX < mGutterSize)) {
+//                    requestDisallowInterceptTouchEvent(true)
+//                    return false
+//                }
+//
+//                if (!isSelecting && !mIsBeingDragged) {
+//                    mInitialVelocity = getCurrentXVelocity()
+//                    val pointerIndex = ev.findPointerIndex(mActivePointerId)
+//                    val x = ev.getX(pointerIndex)
+//                    val xDiff = abs(x - mLastMotionX)
+//
+//                    if (xDiff > mTouchSlop) {
+//                        if (DEBUG) Timber.v("Starting drag!")
+//                        mIsBeingDragged = true
+//                        mLastMotionX = if (x - mInitialMotionX > 0)
+//                            mInitialMotionX + mTouchSlop
+//                        else
+//                            mInitialMotionX - mTouchSlop
+//                        setScrollState(SCROLL_STATE_DRAGGING)
+//                        setScrollingCacheEnabled(true)
+//                    }
+//                }
+//            }
+//            MotionEvent.ACTION_UP -> when {
+//                mIsBeingDragged -> {
+//                    mIsBeingDragged = false
+//                    mHasAbortedScroller = false
+//
+//                    val activePointerIndex = ev.findPointerIndex(mActivePointerId)
+//                    val x = ev.getX(activePointerIndex)
+//                    val y = ev.getY(activePointerIndex)
+//
+//                    if (scrollMode) {
+//                        val totalDelta = (y - mInitialMotionY).toInt()
+//                        if (abs(totalDelta) < 200) {
+//                            if (mInitialMotionX < x) {
+//                                scrollLeft(animated = true)
+//                            } else if (mInitialMotionX > x) {
+//                                scrollRight(animated = true)
+//                            }
+//                        }
+//                    } else {
+//                        val velocity = getCurrentXVelocity() ?: 0
+//                        val totalDelta = (x - mInitialMotionX).toInt()
+//                        val targetPage = determineTargetPage(
+//                            currentPage = mCurItem,
+//                            initialVelocity = mInitialVelocity ?: 0,
+//                            currentVelocity = velocity,
+//                            deltaX = totalDelta
+//                        )
+//
+//                        when {
+//                            targetPage < 0 -> {
+//                                scrollLeft(animated = true)
+//                            }
+//                            targetPage >= numPages -> {
+//                                scrollRight(animated = true)
+//                            }
+//                            else -> {
+//                                setCurrentItemInternal(targetPage, true, velocity)
+//                            }
+//                        }
+//                    }
+//                }
+//                // The gesture was made while a smooth scrolling was animating. If no dragging
+//                // occurred, we continue the smooth scrolling where we left off.
+//                mHasAbortedScroller -> {
+//                    mHasAbortedScroller = false
+//                    val velocity = getCurrentXVelocity() ?: 0
+//                    setCurrentItemInternal(mCurItem, true, velocity)
+//                }
+//            }
+//
+//            MotionEvent.ACTION_CANCEL -> if (mIsBeingDragged) {
+//                mIsBeingDragged = false
+//                scrollToItem(mCurItem, true, 0, false)
+//            }
+//            MotionEvent.ACTION_POINTER_DOWN -> {
+//                val index = ev.actionIndex
+//                val x = ev.getX(index)
+//                mLastMotionX = x
+//                mActivePointerId = ev.getPointerId(index)
+//            }
+//            MotionEvent.ACTION_POINTER_UP -> {
+//                onSecondaryPointerUp(ev)
+//                mLastMotionX = ev.getX(ev.findPointerIndex(mActivePointerId))
+//            }
+//        }
+//
+//        return super.onTouchEvent(ev)
+//    }
 
     /**
      * @return Info about the page at the current scroll position.
